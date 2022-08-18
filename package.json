@@ -3,6 +3,13 @@
   "module": "index.ts",
   "type": "module",
   "devDependencies": {
-    "bun-types": "^0.1.0"
+    "@quero/eslint-config-base": "^2.1.0",
+    "@quero/eslint-config-typescript": "^1.2.2",
+    "@typescript-eslint/eslint-plugin": "^5.33.1",
+    "@typescript-eslint/parser": "^5.33.1",
+    "bun-types": "^0.1.0",
+    "eslint": "^8.22.0",
+    "eslint-plugin-jest": "^26.8.3",
+    "typescript": "^4.7.4"
   }
 }
