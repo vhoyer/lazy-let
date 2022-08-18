@@ -1,5 +1,5 @@
 {
-  "name": "test-lazy-let",
+  "name": "lazy-let",
   "module": "index.ts",
   "type": "module",
   "scripts": {
