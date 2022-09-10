@@ -4,11 +4,15 @@
   "module": "dist/index.js",
   "type": "module",
   "scripts": {
+    "prerelease": "bun run build",
     "release": "np",
     "build": "tsc",
     "clean": "tsc --build --clean",
     "test": "jest"
   },
+  "files": [
+    "dist/*"
+  ],
   "devDependencies": {
     "@babel/core": "^7.18.10",
     "@babel/preset-env": "^7.18.10",
