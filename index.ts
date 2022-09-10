@@ -1,31 +1,30 @@
-type DefDict = { [name: string]: () => any };
+type LazyLet<T extends object> =
+  T &
+  (<U extends object>
+    (values: {
+      [K in keyof U]: () => U[K]
+    }) => LazyLet<T & U>
+  );
 
-interface AutoReturning<V> {
-  (arg0: V): AutoReturning<V>;
-};
-
-export function lazylet<
-  T extends DefDict,
-  U extends { [key in keyof T]: any },
->(values: T): U & AutoReturning<T> {
-  const createStore: AutoReturning<T> = (overrides) => {
+export function lazylet<T extends object>(values: { [K in keyof T]: () => T[K] }) {
+  const createStore = (overrides: any) => {
     return lazylet({
       ...values,
       ...overrides,
     });
   };
 
-  Object.entries(values).map(([key, factory]) => {
+  (Object.entries(values) as Array<[string, () => any]>).map(([key, factory]) => {
     Object.defineProperty(createStore, key, {
       enumerable: true,
       configurable: true,
       get() {
-        const value = factory()
+        const value = factory();
         Object.defineProperty(createStore, key, { get: () => value });
         return value;
       },
-    })
+    });
   });
 
-  return createStore as (U & AutoReturning<T>);
+  return createStore as LazyLet<T>;
 };
