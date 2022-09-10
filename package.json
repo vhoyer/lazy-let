@@ -4,6 +4,7 @@
   "module": "dist/index.js",
   "type": "module",
   "scripts": {
+    "release": "np",
     "build": "tsc",
     "clean": "tsc --build --clean",
     "test": "jest"
@@ -22,6 +23,7 @@
     "eslint": "^8.22.0",
     "eslint-plugin-jest": "^26.8.3",
     "jest": "^28.1.3",
+    "np": "^7.6.2",
     "ts-node": "^10.9.1",
     "tsc": "^2.0.4",
     "typescript": "^4.7.4"
