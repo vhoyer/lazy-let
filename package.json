@@ -1,6 +1,6 @@
 {
   "name": "lazy-let",
-  "module": "index.ts",
+  "module": "src/index.ts",
   "type": "module",
   "scripts": {
     "test": "jest"
