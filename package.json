@@ -1,8 +1,10 @@
 {
   "name": "lazy-let",
-  "module": "src/index.ts",
+  "module": "dist/index.js",
   "type": "module",
   "scripts": {
+    "build": "tsc",
+    "clean": "tsc --build --clean",
     "test": "jest"
   },
   "devDependencies": {
