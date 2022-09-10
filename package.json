@@ -4,7 +4,7 @@
   "module": "dist/index.js",
   "type": "module",
   "scripts": {
-    "prerelease": "bun run build",
+    "prerelease": "npm run build",
     "release": "np",
     "build": "tsc",
     "clean": "tsc --build --clean",
@@ -29,7 +29,11 @@
     "jest": "^28.1.3",
     "np": "^7.6.2",
     "ts-node": "^10.9.1",
-    "tsc": "^2.0.4",
     "typescript": "^4.7.4"
+  },
+  "overrides": {
+    "@quero/eslint-config-typescript": {
+      "eslint-plugin-jest": "^26.8.3"
+    }
   }
 }
