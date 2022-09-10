@@ -39,6 +39,21 @@ test('lazylet can use keys inside keys', () => {
   expect($.var2).toEqual('abcdef');
 })
 
+test('lazylet can receive the store on the factory', () => {
+  let $ = lazylet({
+    var1: () => 'abc',
+    var2: ($) => $.var1 + 'def',
+  });
+
+  expect($.var2).toEqual('abcdef');
+
+  $ = $({
+    var1: () => 'cebola_',
+  });
+
+  expect($.var2).toEqual('cebola_def');
+})
+
 test('lazylet can be redefined with overrides after instantiated', () => {
   let $ = lazylet({
     var1: () => 'abc',
