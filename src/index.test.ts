@@ -52,6 +52,7 @@ test('lazylet can receive the store on the factory', () => {
   });
 
   expect($.var2).toEqual('cebola_def');
+  expect($.var2.toUpperCase()).toEqual('CEBOLA_DEF');
 })
 
 test('lazylet can be redefined with overrides after instantiated', () => {
