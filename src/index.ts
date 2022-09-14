@@ -1,7 +1,7 @@
 export type LazyLet<T extends object> =
   T & (<U extends object>
     (values: {
-      [K in keyof U]: () => U[K]
+      [K in keyof U]: (store: any) => U[K]
     }) => LazyLet<T & U>
   );
 
