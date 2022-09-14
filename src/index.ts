@@ -1,4 +1,4 @@
-type LazyLet<T extends object> =
+export type LazyLet<T extends object> =
   T & (<U extends object>
     (values: {
       [K in keyof U]: () => U[K]
