@@ -6,26 +6,32 @@ export type LazyLet<T extends object> =
   );
 
 export function lazylet<T extends object>(
+  onReset: (fn: Function) => void,
   values: { [K in keyof T]: (store: any) => T[K] },
 ) {
   const createStore = ((overrides: any) => {
-    return lazylet({
+    return lazylet(onReset, {
       ...values,
       ...overrides,
     });
   }) as LazyLet<T>;
 
-  for (const key in values) {
-    Object.defineProperty(createStore, key, {
-      enumerable: true,
-      configurable: true,
-      get() {
-        const value = values[key](createStore);
-        Object.defineProperty(createStore, key, { get: () => value });
-        return value;
-      },
-    });
-  }
+  const primeStore = () => {
+    for (const key in values) {
+      Object.defineProperty(createStore, key, {
+        enumerable: true,
+        configurable: true,
+        get() {
+          const value = values[key](createStore);
+          Object.defineProperty(createStore, key, { get: () => value });
+          return value;
+        },
+      });
+    }
+  };
+
+  // on beforeEach
+  onReset(primeStore);
 
   return createStore;
 };

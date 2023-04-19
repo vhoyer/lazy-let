@@ -1,7 +1,8 @@
 import { lazylet } from './index';
 
 test('lazylet defines variables', () => {
-  const $ = lazylet({
+  const reset = (fn: Function) => fn();
+  const $ = lazylet(reset, {
     var1: () => 'abc',
   });
 
@@ -9,9 +10,10 @@ test('lazylet defines variables', () => {
 });
 
 test('lazylet defines lazy variables', () => {
+  const reset = (fn: Function) => fn();
   const var1 = jest.fn(() => 'abcd');
 
-  const $ = lazylet({ var1 });
+  const $ = lazylet(reset, { var1 });
 
   expect(var1).not.toHaveBeenCalled();
   $.var1;
@@ -19,9 +21,10 @@ test('lazylet defines lazy variables', () => {
 })
 
 test('lazylet does not call factory twice', () => {
+  const reset = (fn: Function) => fn();
   const var1 = jest.fn(() => 'abcd');
 
-  const $ = lazylet({ var1 });
+  const $ = lazylet(reset, { var1 });
 
   expect(var1).not.toHaveBeenCalled();
   $.var1;
@@ -31,7 +34,8 @@ test('lazylet does not call factory twice', () => {
 })
 
 test('lazylet can use keys inside keys', () => {
-  const $ = lazylet({
+  const reset = (fn: Function) => fn();
+  const $ = lazylet(reset, {
     var1: () => 'abc',
     var2: () => $.var1 + 'def',
   });
@@ -40,7 +44,8 @@ test('lazylet can use keys inside keys', () => {
 })
 
 test('lazylet can receive the store on the factory', () => {
-  let $ = lazylet({
+  const reset = (fn: Function) => fn();
+  let $ = lazylet(reset, {
     var1: () => 'abc',
     var2: ($) => $.var1 + 'def',
   });
@@ -56,7 +61,8 @@ test('lazylet can receive the store on the factory', () => {
 })
 
 test('lazylet can be redefined with overrides after instantiated', () => {
-  let $ = lazylet({
+  const reset = (fn: Function) => fn();
+  let $ = lazylet(reset, {
     var1: () => 'abc',
     var2: () => $.var1 + 'def',
   });
@@ -69,3 +75,29 @@ test('lazylet can be redefined with overrides after instantiated', () => {
 
   expect($.var2).toEqual('cebola_def');
 })
+
+test('can be reset between tests', () => {
+  let simulateBeforeEach: any;
+  const reset = (fn: Function) => simulateBeforeEach = fn;
+  const var1 = jest.fn(() => 'abcd');
+
+  const $ = lazylet(reset, { var1 });
+
+  // simulate beforeEach
+  simulateBeforeEach?.();
+
+  expect(var1).not.toHaveBeenCalled();
+  $.var1;
+  expect(var1).toHaveBeenCalledTimes(1);
+  $.var1;
+  expect(var1).toHaveBeenCalledTimes(1);
+
+  // simulate beforeEach
+  simulateBeforeEach?.();
+
+  expect(var1).toHaveBeenCalledTimes(1);
+  $.var1;
+  expect(var1).toHaveBeenCalledTimes(2);
+  $.var1;
+  expect(var1).toHaveBeenCalledTimes(2);
+});
