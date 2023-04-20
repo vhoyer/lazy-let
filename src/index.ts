@@ -6,7 +6,7 @@ export type LazyLet<T extends object> =
   );
 
 export function lazylet<T extends object>(
-  onReset: (fn: Function) => void,
+  onReset: Function,
   values: { [K in keyof T]: (store: any) => T[K] },
 ) {
   const createStore = ((overrides: any) => {

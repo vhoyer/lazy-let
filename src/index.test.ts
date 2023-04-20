@@ -101,3 +101,33 @@ test('can be reset between tests', () => {
   $.var1;
   expect(var1).toHaveBeenCalledTimes(2);
 });
+
+describe('an example of a test', () => {
+  const store = {
+    var1: jest.fn(() => 'abc'),
+    var2: jest.fn(() => $0.var1 + 'def'),
+  };
+
+  const $0 = lazylet(beforeEach, store);
+
+  it('values exist', () => {
+    expect(store.var1).toHaveBeenCalledTimes(0);
+    expect(store.var2).toHaveBeenCalledTimes(0);
+    expect($0.var1).toEqual('abc');
+    expect($0.var2).toEqual('abcdef');
+    expect(store.var1).toHaveBeenCalledTimes(1);
+    expect(store.var2).toHaveBeenCalledTimes(1);
+  });
+
+  it('each factory was only called once per test', () => {
+    expect(store.var1).toHaveBeenCalledTimes(1);
+    expect($0.var1).toEqual('abc');
+    expect($0.var1).toEqual('abc');
+    expect(store.var1).toHaveBeenCalledTimes(2);
+
+    expect(store.var2).toHaveBeenCalledTimes(1);
+    expect($0.var2).toEqual('abcdef');
+    expect($0.var2).toEqual('abcdef');
+    expect(store.var2).toHaveBeenCalledTimes(2);
+  });
+});
