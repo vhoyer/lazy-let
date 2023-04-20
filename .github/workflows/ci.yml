@@ -17,6 +17,7 @@ jobs:
           - 14.x
           - 16.x
           - 18.x
+          - 20.x
     name: Install dependencies (node@${{ matrix.node-version }})
     runs-on: ubuntu-latest
     steps:
@@ -45,6 +46,7 @@ jobs:
           - 14.x
           - 16.x
           - 18.x
+          - 20.x
     needs: [setup]
     name: Builds Successfully (node@${{ matrix.node-version }})
     runs-on: ubuntu-latest
@@ -69,6 +71,7 @@ jobs:
           - 14.x
           - 16.x
           - 18.x
+          - 20.x
     needs: [setup]
     name: Tests are passing (node@${{ matrix.node-version }})
     runs-on: ubuntu-latest
