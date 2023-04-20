@@ -1,10 +1,28 @@
 {
   "name": "@vhoyer/lazy-let",
   "version": "1.0.0",
+  "description": "An utility for using lazy variables in a BDD test environment with nested `describe`s, and `it`s.",
+  "author": "Vinícius Hoyer",
   "module": "dist/index.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
+  "license": "MIT",
+  "homepage": "https://github.com/vhoyer/lazy-let#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vhoyer/lazy-let.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vhoyer/lazy-let/issues"
+  },
+  "keywords": [
+    "bdd",
+    "lazy",
+    "let",
+    "tests",
+    "lazy-let"
+  ],
   "scripts": {
     "prerelease": "npm run build",
     "release": "np",
@@ -13,8 +31,15 @@
     "test": "jest"
   },
   "files": [
+    "src/*",
     "dist/*"
   ],
+  "np": {
+    "branch": "main",
+    "releaseDraft": true,
+    "yarn": false,
+    "message": ":bookmark: v%s"
+  },
   "publishConfig": {
     "access": "public"
   },
