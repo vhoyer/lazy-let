@@ -1,6 +1,6 @@
 {
   "name": "@vhoyer/lazy-let",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An utility for using lazy variables in a BDD test environment with nested `describe`s, and `it`s.",
   "author": "Vinícius Hoyer",
   "module": "dist/index.js",
