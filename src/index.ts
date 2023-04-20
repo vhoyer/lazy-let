@@ -30,8 +30,9 @@ export function lazylet<T extends object>(
     }
   };
 
-  // on beforeEach
+  // on afterEach
   onReset(primeStore);
+  primeStore();
 
   return createStore;
 };

@@ -108,7 +108,7 @@ describe('an example of a test', () => {
     var2: jest.fn(() => $0.var1 + 'def'),
   };
 
-  const $0 = lazylet(beforeEach, store);
+  const $0 = lazylet(afterEach, store);
 
   it('values exist', () => {
     expect(store.var1).toHaveBeenCalledTimes(0);
