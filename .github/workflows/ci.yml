@@ -1,0 +1,90 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  setup:
+    strategy:
+      matrix:
+        node-version:
+          - 14.x
+          - 16.x
+          - 18.x
+    name: Install dependencies (node@${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@main
+
+    - name: Install Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@master
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Generate Dependencies Cache
+      id: dependencies
+      uses: actions/cache@main
+      with:
+        path: node_modules
+        key: ${{ matrix.node-version }}${{ hashFiles('package-lock.json') }}
+
+    - name: Install dependencies
+      if: steps.dependencies.outputs.cache-hit != 'true'
+      run: npm clean-install
+
+  build:
+    strategy:
+      matrix:
+        node-version:
+          - 14.x
+          - 16.x
+          - 18.x
+    needs: [setup]
+    name: Builds Successfully (node@${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@main
+    - name: Install Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@master
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Load Dependencies Cache
+      uses: actions/cache@main
+      with:
+        path: node_modules
+        key: ${{ matrix.node-version }}${{ hashFiles('package-lock.json') }}
+    - name: Run build
+      run: npm run build
+
+  tests:
+    strategy:
+      matrix:
+        node-version:
+          - 14.x
+          - 16.x
+          - 18.x
+    needs: [setup]
+    name: Tests are passing (node@${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@main
+
+    - name: Install Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@master
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Load Dependencies Cache
+      uses: actions/cache@main
+      with:
+        path: node_modules
+        key: ${{ matrix.node-version }}${{ hashFiles('package-lock.json') }}
+
+    - name: Run tests
+      run: npm run test
